@@ -10,11 +10,14 @@ class LinkedList
     if node.nil?
       @head = Node.new(key, value)
     else
-      until node.next_node.nil?
+      # until node.next_node.nil?
+      while node
         if node.key == key
           node.value = value
           return
         end
+        break if node.next_node.nil?
+
         node = node.next_node
       end
       node.next_node = Node.new(key, value)
@@ -23,13 +26,18 @@ class LinkedList
 
   def remove(key)
     node = @head
+    return nil if node.nil?
+
+    if node.key == key
+      @head = node.next_node
+      return node.value
+    end
     until node.next_node.key == key
       node = node.next_node
       return nil if node.next_node.nil?
     end
-    temp_node = node.next_node.next_node
     remove_value = node.next_node.value
-    node.next_node = temp_node
+    node.next_node = node.next_node.next_node
     remove_value
   end
 
