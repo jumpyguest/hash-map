@@ -1,8 +1,6 @@
 require_relative 'linkedlist'
 
 class HashMap
-  attr_reader :load_factor, :capacity
-
   def initialize(load_factor, capacity)
     @load_factor = load_factor
     @capacity = capacity
@@ -34,10 +32,9 @@ class HashMap
   end
 
   def rehash
-    p 'rehash'
     array_entries = entries
     @capacity *= 2
-    @buckets = Array.new(capacity, nil)
+    @buckets = Array.new(@capacity, nil)
 
     array_entries.each do |entry|
       key = entry.first
