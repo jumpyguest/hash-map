@@ -27,9 +27,23 @@ class HashMap
 
   def set(key, value)
     bucket_index = get_bucket_index(key)
-    p bucket_index
     @buckets[bucket_index] = LinkedList.new if @buckets[bucket_index].nil?
     @buckets[bucket_index].append(key, value)
+
+    rehash if length > @load_factor * @capacity
+  end
+
+  def rehash
+    p 'rehash'
+    array_entries = entries
+    @capacity *= 2
+    @buckets = Array.new(capacity, nil)
+
+    array_entries.each do |entry|
+      key = entry.first
+      value = entry.last
+      set(key, value)
+    end
   end
 
   def get(key)
